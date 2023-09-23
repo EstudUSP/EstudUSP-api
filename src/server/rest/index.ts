@@ -1,0 +1,52 @@
+import express from 'express';
+import expressWinston from 'express-winston';
+import cors from 'cors';
+import helmet from 'helmet';
+import { inject, injectable } from 'inversify';
+import winston from 'winston';
+
+import IRouter from './router';
+import { createServer } from '../';
+
+import logger, { winstonFormat } from '../../infra/logger';
+const console = logger.child({ label: 'HTTPS Server' });
+
+@injectable()
+export default class RestServer {
+  constructor(
+    @inject('routers') private readonly routers: IRouter[],
+  ) {}
+
+  async serverFactory() {
+    const app = express();
+
+    app.use(cors());
+    app.use(helmet());
+    app.use(helmet.ieNoOpen());
+    app.use(helmet.noSniff());
+    app.use(helmet.dnsPrefetchControl({ allow: false }));
+    app.use(express.json());
+
+    const port = Number(process.env.HTTP_SERVER_PORT);
+
+    app.use(expressWinston.logger({
+      transports: [
+        new winston.transports.Console()
+      ],
+      format: winstonFormat,
+      expressFormat: true,
+      colorize: true,
+    }));
+
+    for (const router of this.routers) {
+      const iRouter = await router.loadRouter();
+      await app.use(iRouter);
+    }
+
+    const server = createServer(port, app);
+
+    server.on('listening', () => {
+      console.info(`HTTPS server initialized on ${port}`);
+    });
+  }
+}
