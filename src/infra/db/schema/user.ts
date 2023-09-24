@@ -3,7 +3,7 @@ import { Question } from './question';
 import { Recommendation } from './recommendation';
 
 @Entity()
-export default class User {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,8 +16,8 @@ export default class User {
   @Column()
   password: string;
 
-  @Column()
-  picture_link?: string;
+  @Column({ nullable: true })
+  picture_link: string;
 
   @OneToMany(() => Question, (post) => post)
   posts: Question[];

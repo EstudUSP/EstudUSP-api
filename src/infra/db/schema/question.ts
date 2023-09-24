@@ -1,11 +1,11 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Attachment } from './attachment';
-import User from './user';
+import { User } from './user';
 import { Subject } from './subject';
 import { Professor } from './professor';
 import { Tag } from './tag';
-import { Answer } from './answer';
+import { Reply } from './reply';
 
 @Entity()
 export class Question {
@@ -39,6 +39,6 @@ export class Question {
   @OneToMany(() => Attachment, (attachment) => attachment)
   attachments: Attachment[];
 
-  @ManyToMany(() => Answer, (answer) => answer)
-  answers?: Answer[];
+  @ManyToMany(() => Reply, (reply) => reply)
+  replies?: Reply[];
 }

@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Attachment } from './attachment';
-import User from './user';
+import { User } from './user';
 import { Subject } from './subject';
 import { Professor } from './professor';
 import { Tag } from './tag';

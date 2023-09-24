@@ -26,6 +26,9 @@ export default async function factory(): Promise<Container> {
   const container = new Container();
 
   await load(container, path.resolve(__dirname, './application/useCase'), Scope.SINGLETON);
+  await load(container, path.resolve(__dirname, './domain/entity'), Scope.SINGLETON);
+  await load(container, path.resolve(__dirname, './domain/service'), Scope.SINGLETON);
+  await load(container, path.resolve(__dirname, './infra/db/repository'), Scope.SINGLETON);
 
   await load(container, path.resolve(__dirname, './server/rest/controller'), Scope.SINGLETON);
   await load(container, path.resolve(__dirname, './server/rest/router'), Scope.SINGLETON);

@@ -1,5 +1,14 @@
 import { DataSource } from 'typeorm';
 
+import { Recommendation } from './schema/recommendation';
+import { Question } from './schema/question';
+import { User } from './schema/user';
+import { Reply } from './schema/reply';
+import { Tag } from './schema/tag';
+import { Professor } from './schema/professor';
+import { Subject } from './schema/subject';
+import { Attachment } from './schema/attachment';
+
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -8,10 +17,18 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   synchronize: true,
-  logging: true,
-  entities: [],
   subscribers: [],
   migrations: [],
+  entities: [
+    User,
+    Question,
+    Recommendation,
+    Reply,
+    Tag,
+    Professor,
+    Subject,
+    Attachment,
+  ],
 });
 
 export default AppDataSource;
