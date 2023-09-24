@@ -5,7 +5,7 @@ import { DataSource } from 'typeorm';
 
 import RestServer from './server/rest';
 
-import AppDataSource from './infra/db/setup';
+import AppDataSource from './infra/db';
 import logger from './infra/logger';
 
 const console = logger.child({ label: 'Container' });
