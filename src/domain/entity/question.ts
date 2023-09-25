@@ -1,14 +1,14 @@
 import Professor from './professor';
 import Subject from './subject';
 import Tag from './tag';
-import User from './user';
+import { IUser } from './user';
 
 export interface IQuestion {
   title: string;
   content: string;
   upvote: number;
   anonymous: boolean;
-  user: User;
+  user: IUser;
   professor: Professor;
   attachments: string[];
   tags: Tag[];
@@ -24,7 +24,7 @@ class Question {
 
   anonymous: boolean;
 
-  user: User;
+  user: IUser;
 
   professor: Professor;
 

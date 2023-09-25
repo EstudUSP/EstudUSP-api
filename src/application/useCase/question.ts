@@ -53,6 +53,10 @@ class Question {
       subject,
     });
   }
+
+  list() {
+    return this.questionRepository.list();
+  }
 }
 
 export default Question;

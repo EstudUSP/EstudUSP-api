@@ -63,6 +63,12 @@ class QuestionRepository {
 
     return QuestionEntity;
   }
+
+  async list(): Promise<Question[]> {
+    const questions = await this.repository.find({ relations: ['user', 'tags', 'subject', 'professor'] });
+
+    return questions.map((question) => new Question(question));
+  }
 }
 
 export default QuestionRepository;

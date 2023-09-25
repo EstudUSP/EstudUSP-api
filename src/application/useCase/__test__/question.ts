@@ -35,10 +35,19 @@ describe('Question use cases', () => {
       userToken: userToken,
       professor: faker.lorem.word(),
       attachments: [faker.internet.url(), faker.internet.url()],
-      tags: ['oii', 'ok', 'boa noite'],
+      tags: [faker.lorem.word(), faker.lorem.word(), faker.lorem.word()],
       subjectId: 'conduco',
     };
 
     await expect(question.post(questionData)).resolves.not.toThrow();
+  });
+
+  it('should be able to list questions', async () => {
+    const questions = await question.list();
+
+    console.log(questions);
+
+    expect(questions).toBeDefined();
+    expect(questions.length).toBeGreaterThan(0);
   });
 });
