@@ -21,22 +21,23 @@ describe('Auth', () => {
       name: faker.internet.userName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
+      profilePicture: faker.internet.url(),
     };
 
-    const user = new User(userData);
-    const token = await auth.signUp(userData.name, userData.email, userData.password);
+    const userEntity = new User(userData);
+    const user = await auth.signUp(userData);
 
-    expect(token).toEqual(user.getToken());
+    expect(user).toBe(userEntity);
   });
 
   it('should sign in a user', async () => {
-    const user = new User({
+    const userEntity = new User({
       ...userData
     });
 
-    const token = await auth.signIn(userData.email, userData.password);
+    const user = await auth.signIn(userData.email, userData.password);
 
-    expect(token).toEqual(user.getToken());
+    expect(user).toEqual(userEntity);
   });
 
   it('should throw an error for invalid password during sign in', async () => {

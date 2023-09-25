@@ -10,14 +10,8 @@ class Auth {
     @inject(UserRepository) private readonly userRepository: UserRepository,
   ) {}
 
-  async signUp(name: string, email: string, password: string) {
-    const userData: IUser = {
-      name,
-      email,
-      password,
-    };
-
-    const userExists = await this.userRepository.findByEmail(email);
+  async signUp(userData: IUser) {
+    const userExists = await this.userRepository.findByEmail(userData.email);
 
     if (userExists) {
       throw new Error('Already exists an user with that email');
@@ -42,11 +36,10 @@ class Auth {
     return this.auth(user);
   }
 
-  private auth(user: User): string {
-    const token = user.getToken();
-    this.sessions.set(token, user);
+  private auth(user: User): User {
+    this.sessions.set(user.token, user);
 
-    return token;
+    return user;
   }
 }
 

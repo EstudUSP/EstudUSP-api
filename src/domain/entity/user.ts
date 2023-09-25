@@ -4,7 +4,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  picture_link?: string;
+  profilePicture?: string;
 }
 
 class User {
@@ -14,23 +14,23 @@ class User {
 
   public password: string;
 
-  public picture_link?: string;
+  public profilePicture?: string;
 
-  private token?: string;
+  private _token?: string;
+
+  get token() {
+    if (!this._token) {
+      this._token = jwt.sign({ email: this.email, password: this.password }, 'test');
+    }
+
+    return this._token;
+  }
 
   constructor(user: IUser) {
     this.name = user.name;
     this.email = user.email;
     this.password = user.password;
-    this.picture_link = user.picture_link;
-  }
-
-  getToken(): string {
-    if (!this.token) {
-      this.token = jwt.sign({ email: this.email, password: this.password }, 'test');
-    }
-
-    return this.token;
+    this.profilePicture = user.profilePicture;
   }
 }
 

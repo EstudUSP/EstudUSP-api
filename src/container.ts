@@ -25,6 +25,15 @@ enum Type {
 export default async function factory(): Promise<Container> {
   const container = new Container();
 
+  try {
+    const datasource = await AppDataSource.initialize();
+    container.bind(DataSource).toConstantValue(datasource).whenTargetIsDefault();
+
+    console.info('Data source initialized');
+  } catch(err) {
+    console.error('Error during Data Source initialization', err);
+  }
+
   await load(container, path.resolve(__dirname, './application/useCase'), Scope.SINGLETON);
   await load(container, path.resolve(__dirname, './domain/entity'), Scope.SINGLETON);
   await load(container, path.resolve(__dirname, './domain/service'), Scope.SINGLETON);
@@ -35,15 +44,6 @@ export default async function factory(): Promise<Container> {
   await loadList(container, path.resolve(__dirname, './server/rest/router'), 'routers');
 
   container.bind(RestServer).to(RestServer).inSingletonScope();
-
-  try {
-    const datasource = await AppDataSource.initialize();
-    container.bind(DataSource).toConstantValue(datasource).whenTargetIsDefault();
-
-    console.info('Data source initialized');
-  } catch(err) {
-    console.error('Error during Data Source initialization', err);
-  }
 
   return container;
 }

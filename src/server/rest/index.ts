@@ -26,6 +26,7 @@ export default class RestServer {
     app.use(helmet.noSniff());
     app.use(helmet.dnsPrefetchControl({ allow: false }));
     app.use(express.json());
+    app.use('/files', express.static(process.cwd() + '/uploads'));
 
     const port = Number(process.env.HTTP_SERVER_PORT);
 

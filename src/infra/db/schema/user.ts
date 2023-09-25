@@ -17,7 +17,7 @@ export class User {
   password: string;
 
   @Column({ nullable: true })
-  picture_link: string;
+  profilePicture: string;
 
   @OneToMany(() => Question, (post) => post)
   posts: Question[];

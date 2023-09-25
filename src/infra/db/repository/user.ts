@@ -16,7 +16,7 @@ class UserRepository {
   }
 
   async create(params: IUser): Promise<UserEntity> {
-    const { email, password, picture_link, name } = params;
+    const { email, password, profilePicture, name } = params;
 
     const user = new UserSchema();
 
@@ -24,8 +24,8 @@ class UserRepository {
     user.password = password;
     user.name = name;
 
-    if (picture_link) {
-      user.picture_link = picture_link;
+    if (profilePicture) {
+      user.profilePicture = profilePicture;
     }
 
     await this.repository.save(user);
