@@ -62,10 +62,29 @@ class QuestionRepository {
     return QuestionEntity;
   }
 
-  async list(): Promise<Question[]> {
-    const questions = await this.repository.find({ relations: ['user', 'tags', 'subject', 'professor'] });
+  async list(): Promise<any[]> {
+    const questions = await this.repository.find({ relations: ['user'] });
 
-    return questions.map((question) => new Question(question.id, question));
+    questions.forEach((question: any) => {
+      Object.keys(question).forEach((key: string) => {
+        if (question[key] === undefined) {
+          delete question[key];
+        }
+      });
+
+      if (question.anonymous) {
+        delete question.user;
+      } else {
+        question.user = {
+          name: question.user.name,
+          profilePicture: question.user.profilePicture,
+        };
+      }
+    });
+
+    console.log(questions);
+
+    return questions;
   }
 
   async upvote(id: number): Promise<void> {

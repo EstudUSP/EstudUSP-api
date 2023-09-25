@@ -45,7 +45,7 @@ describe('Question use cases', () => {
   it('should be able to list questions', async () => {
     const questions = await question.list();
 
-    console.log(questions);
+    // console.log(questions);
 
     expect(questions).toBeDefined();
     expect(questions.length).toBeGreaterThan(0);
