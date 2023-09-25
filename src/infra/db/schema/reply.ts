@@ -9,7 +9,10 @@ export class Reply {
   content: string;
 
   @Column()
-  upvote: number;
+  likes: number;
+
+  @Column()
+  dislikes: number;
 
   @Column()
   anonymous: boolean;

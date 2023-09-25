@@ -11,8 +11,10 @@ describe('User Class', () => {
     profilePicture: faker.internet.url(),
   };
 
+  const id = faker.number.int();
+
   it('should create a User instance', () => {
-    const user = new User(userData);
+    const user = new User(id, userData);
 
     expect(user).toBeDefined();
     expect(user.name).toBe(userData.name);
@@ -22,7 +24,7 @@ describe('User Class', () => {
   });
 
   it('should generate a valid token', () => {
-    const user = new User(userData);
+    const user = new User(id, userData);
     const token = user.token;
 
     expect(token).toBeDefined();
@@ -34,7 +36,7 @@ describe('User Class', () => {
   });
 
   it('should reuse the same token for multiple calls', () => {
-    const user = new User(userData);
+    const user = new User(id, userData);
 
     const token1 = user.token;
     const token2 = user.token;

@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+
 import User, { IUser } from '../../domain/entity/user';
 import SessionService from '../../domain/service/session';
 import UserRepository from '../../infra/db/repository/user';

@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Attachment } from './attachment';
 import { User } from './user';
 import { Subject } from './subject';
 import { Professor } from './professor';
@@ -24,6 +23,9 @@ export class Question {
   @Column()
   anonymous: boolean;
 
+  @Column('text', { nullable: true, array: true })
+  attachments: string[];
+
   @ManyToOne(() => Subject, (subject) => subject)
   subject: Subject;
 
@@ -34,10 +36,8 @@ export class Question {
   professor: Professor;
 
   @ManyToMany(() => Tag, (tag) => tag)
+  @JoinTable()
   tags: Tag[];
-
-  @OneToMany(() => Attachment, (attachment) => attachment)
-  attachments: Attachment[];
 
   @ManyToMany(() => Reply, (reply) => reply)
   replies?: Reply[];

@@ -7,7 +7,7 @@ export class Professor {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToMany(() => Question, (post) => post)

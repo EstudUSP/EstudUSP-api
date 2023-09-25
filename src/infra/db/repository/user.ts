@@ -1,9 +1,8 @@
 import { inject, injectable } from 'inversify';
-import UserEntity, { IUser } from '../../../domain/entity/user';
-
-import { User as UserSchema } from '../schema/user';
-
 import { DataSource, Repository } from 'typeorm';
+
+import UserEntity, { IUser } from '../../../domain/entity/user';
+import { User as UserSchema } from '../schema/user';
 
 @injectable()
 class UserRepository {
@@ -28,9 +27,9 @@ class UserRepository {
       user.profilePicture = profilePicture;
     }
 
-    await this.repository.save(user);
+    const newUser = await this.repository.save(user);
 
-    const userEntity = new UserEntity(params);
+    const userEntity = new UserEntity(newUser.id, params);
 
     return userEntity;
   }
@@ -41,7 +40,7 @@ class UserRepository {
 
       if (!user) return null;
 
-      const userEntity = new UserEntity(user);
+      const userEntity = new UserEntity(user.id, user);
 
       return userEntity;
     } catch (err) {

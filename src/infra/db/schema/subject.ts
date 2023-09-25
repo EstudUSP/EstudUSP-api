@@ -6,7 +6,7 @@ import { Recommendation } from './recommendation';
 @Entity()
 export class Subject {
   @PrimaryColumn()
-  id: number; // USP code
+  id: string; // USP code
 
   @Column()
   title: string;

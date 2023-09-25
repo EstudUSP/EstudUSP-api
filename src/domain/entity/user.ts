@@ -8,6 +8,8 @@ export interface IUser {
 }
 
 class User {
+  id: number;
+
   public name: string;
 
   public email: string;
@@ -26,7 +28,8 @@ class User {
     return this._token;
   }
 
-  constructor(user: IUser) {
+  constructor(id: number, user: IUser) {
+    this.id = id;
     this.name = user.name;
     this.email = user.email;
     this.password = user.password;

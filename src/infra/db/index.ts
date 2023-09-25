@@ -7,7 +7,6 @@ import { Reply } from './schema/reply';
 import { Tag } from './schema/tag';
 import { Professor } from './schema/professor';
 import { Subject } from './schema/subject';
-import { Attachment } from './schema/attachment';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
@@ -27,7 +26,6 @@ const AppDataSource = new DataSource({
     Tag,
     Professor,
     Subject,
-    Attachment,
   ],
 });
 
