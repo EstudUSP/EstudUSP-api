@@ -57,6 +57,11 @@ class Question {
   list() {
     return this.questionRepository.list();
   }
+
+  // @TODO: handle downvote
+  upvote(id: number) {
+    return this.questionRepository.upvote(id);
+  }
 }
 
 export default Question;

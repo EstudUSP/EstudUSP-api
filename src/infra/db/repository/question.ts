@@ -32,7 +32,6 @@ class QuestionRepository {
   }
 
   async create(params: IQuestion): Promise<Question> {
-    console.log('creating');
     const {
       title,
       anonymous,
@@ -56,10 +55,9 @@ class QuestionRepository {
     question.attachments = attachments;
     question.subject = this.subjectRepository.create(subject);
 
-    const saved = await this.repository.save(question);
-    console.log(saved);
+    const savedQuestion = await this.repository.save(question);
 
-    const QuestionEntity = new Question(params);
+    const QuestionEntity = new Question(savedQuestion.id, params);
 
     return QuestionEntity;
   }
@@ -67,7 +65,19 @@ class QuestionRepository {
   async list(): Promise<Question[]> {
     const questions = await this.repository.find({ relations: ['user', 'tags', 'subject', 'professor'] });
 
-    return questions.map((question) => new Question(question));
+    return questions.map((question) => new Question(question.id, question));
+  }
+
+  async upvote(id: number): Promise<void> {
+    const question = await this.repository.findOneBy({ id });
+
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    question.upvote += 1;
+
+    await this.repository.save(question);
   }
 }
 

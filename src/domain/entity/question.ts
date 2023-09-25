@@ -16,6 +16,8 @@ export interface IQuestion {
 }
 
 class Question {
+  id: number;
+
   title: string;
 
   content: string;
@@ -32,7 +34,8 @@ class Question {
 
   tags: Tag[];
 
-  constructor(params: IQuestion) {
+  constructor(id: number, params: IQuestion) {
+    this.id = id;
     this.title = params.title;
     this.content = params.content;
     this.upvote = params.upvote;

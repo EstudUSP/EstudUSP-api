@@ -50,4 +50,12 @@ describe('Question use cases', () => {
     expect(questions).toBeDefined();
     expect(questions.length).toBeGreaterThan(0);
   });
+
+  it('should be able to upvote a question', async () => {
+    const questions = await question.list();
+
+    const questionId = questions[0].id;
+
+    await expect(question.upvote(questionId)).resolves.not.toThrow();
+  });
 });
