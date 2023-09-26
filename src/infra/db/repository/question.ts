@@ -62,29 +62,19 @@ class QuestionRepository {
     return QuestionEntity;
   }
 
-  async list(): Promise<any[]> {
-    const questions = await this.repository.find({ relations: ['user'] });
-
-    questions.forEach((question: any) => {
-      Object.keys(question).forEach((key: string) => {
-        if (question[key] === undefined) {
-          delete question[key];
-        }
-      });
-
-      if (question.anonymous) {
-        delete question.user;
-      } else {
-        question.user = {
-          name: question.user.name,
-          profilePicture: question.user.profilePicture,
-        };
-      }
+  // @TODO: add tag filter
+  list(keyword?: string): Promise<Question[]> {
+    return this.repository.find({
+      relations: ['user', 'subject', 'professor'],
+      ...(keyword && {
+        where: [
+          { subject: { id: keyword } },
+          { subject: { title: keyword } },
+          { professor: { name: keyword } },
+          // { tags: { title: keyword } },
+        ]
+      }),
     });
-
-    console.log(questions);
-
-    return questions;
   }
 
   async upvote(id: number): Promise<void> {
@@ -97,6 +87,21 @@ class QuestionRepository {
     question.upvote += 1;
 
     await this.repository.save(question);
+  }
+
+  async get(id: number) {
+    const question = await this.repository.findOne({
+      where: { id },
+      relations: ['user', 'subject', 'professor']
+    });
+
+    console.log(question);
+
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    return question;
   }
 }
 

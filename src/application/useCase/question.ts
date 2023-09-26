@@ -5,6 +5,8 @@ import ProfessorRepository from '../../infra/db/repository/professor';
 import QuestionRepository from '../../infra/db/repository/question';
 import SubjectRepository from '../../infra/db/repository/subject';
 
+import QuestionEntity from '../../domain/entity/question';
+
 export interface PostDTO {
   title: string;
   content: string;
@@ -54,13 +56,19 @@ class Question {
     });
   }
 
-  list() {
-    return this.questionRepository.list();
+  async list(keyword?: string) {
+    const questions = await this.questionRepository.list(keyword);
+    return QuestionEntity.formatList(questions);
   }
 
   // @TODO: handle downvote
   upvote(id: number) {
     return this.questionRepository.upvote(id);
+  }
+
+  async get(id: number) {
+    const question = await this.questionRepository.get(id);
+    return QuestionEntity.format(question);
   }
 }
 

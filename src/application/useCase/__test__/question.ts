@@ -45,7 +45,12 @@ describe('Question use cases', () => {
   it('should be able to list questions', async () => {
     const questions = await question.list();
 
-    // console.log(questions);
+    expect(questions).toBeDefined();
+    expect(questions.length).toBeGreaterThan(0);
+  });
+
+  it('should be able to list questions by a keyword', async () => {
+    const questions = await question.list('apostolus');
 
     expect(questions).toBeDefined();
     expect(questions.length).toBeGreaterThan(0);
@@ -57,5 +62,18 @@ describe('Question use cases', () => {
     const questionId = questions[0].id;
 
     await expect(question.upvote(questionId)).resolves.not.toThrow();
+  });
+
+  it('should be able to get a question by id', async () => {
+    const questions = await question.list();
+
+    const questionId = questions[0].id;
+
+    const questionData = await question.get(questionId);
+
+    console.log(questionData);
+
+    expect(questionData).toBeDefined();
+    expect(questionData.id).toBe(questionId);
   });
 });
