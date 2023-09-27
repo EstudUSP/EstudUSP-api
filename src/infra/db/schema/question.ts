@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './user';
 import { Subject } from './subject';
@@ -39,6 +39,6 @@ export class Question {
   @JoinTable()
   tags: Tag[];
 
-  @ManyToMany(() => Reply, (reply) => reply)
+  @OneToMany(() => Reply, (reply) => reply)
   replies?: Reply[];
 }

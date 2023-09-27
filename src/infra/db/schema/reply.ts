@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user';
 
 @Entity()
 export class Reply {
@@ -16,4 +17,10 @@ export class Reply {
 
   @Column()
   anonymous: boolean;
+
+  @Column('text', { nullable: true, array: true })
+  attachments: string[];
+
+  @ManyToOne(() => User, (user) => user)
+  user: User;
 }

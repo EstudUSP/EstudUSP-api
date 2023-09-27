@@ -6,6 +6,7 @@ import { Tag as TagSchema } from '../schema/tag';
 import { Professor as ProfessorSchema } from '../schema/professor';
 import { User as UserSchema } from '../schema/user';
 import { Subject as SubjectSchema } from '../schema/subject';
+import { Reply as ReplySchema } from '../schema/reply';
 
 import Question, { IQuestion } from '../../../domain/entity/question';
 
@@ -102,6 +103,16 @@ class QuestionRepository {
     }
 
     return question;
+  }
+
+  async addReply(id: number, newReply: ReplySchema) {
+    const question = await this.repository.findOne({
+      where: { id },
+      relations: ['replies'],
+      select: ['replies'],
+    });
+
+    await this.repository.update({ id }, { replies: [...(question?.replies || []), newReply] });
   }
 }
 
