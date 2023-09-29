@@ -93,6 +93,10 @@ class Question {
       question.professor = question.professor.name;
     }
 
+    // if (!question.replies) {
+    //   question
+    // }
+
     return question;
   }
 }

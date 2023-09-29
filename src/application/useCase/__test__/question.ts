@@ -32,7 +32,7 @@ describe('Question use cases', () => {
       content: faker.lorem.paragraph(),
       upvote: 0,
       anonymous: false,
-      userToken: userToken,
+      userToken,
       professor: faker.lorem.word(),
       attachments: [faker.internet.url(), faker.internet.url()],
       tags: [faker.lorem.word(), faker.lorem.word(), faker.lorem.word()],

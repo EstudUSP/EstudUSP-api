@@ -5,8 +5,6 @@ import ProfessorRepository from '../../infra/db/repository/professor';
 import QuestionRepository from '../../infra/db/repository/question';
 import SubjectRepository from '../../infra/db/repository/subject';
 
-import { Reply } from '../../infra/db/schema/reply';
-
 import QuestionEntity from '../../domain/entity/question';
 
 export interface PostDTO {
@@ -71,10 +69,6 @@ class Question {
   async get(id: number) {
     const question = await this.questionRepository.get(id);
     return QuestionEntity.format(question);
-  }
-
-  async addReply(id: number, replyId: Reply) {
-    await this.questionRepository.addReply(id, replyId);
   }
 }
 

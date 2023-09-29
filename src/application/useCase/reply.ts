@@ -28,28 +28,11 @@ class Question {
       throw new Error('Session invalid');
     }
 
-    const newReply = await this.replyRepository.create(reply, userSession);
-
-    if (!newReply) {
-      throw new Error('Cannot create reply');
-    }
-
-    await this.questionRepository.addReply(questionId, newReply);
+    await this.replyRepository.create(questionId, reply, userSession);
   }
 
-  async list(keyword?: string) {
-    const questions = await this.questionRepository.list(keyword);
-    return QuestionEntity.formatList(questions);
-  }
-
-  // @TODO: handle downvote
   upvote(id: number) {
     return this.questionRepository.upvote(id);
-  }
-
-  async get(id: number) {
-    const question = await this.questionRepository.get(id);
-    return QuestionEntity.format(question);
   }
 }
 
