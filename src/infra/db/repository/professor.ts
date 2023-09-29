@@ -25,6 +25,14 @@ class ProfessorRepository {
 
     return professorEntity;
   }
+
+  async list() {
+    const professors = await this.repository.find();
+
+    const professorEntities = professors.map((professor) => new Professor(professor.id, professor.name));
+
+    return professorEntities;
+  }
 }
 
 export default ProfessorRepository;
