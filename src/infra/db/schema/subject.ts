@@ -11,6 +11,12 @@ export class Subject {
   @Column()
   title: string;
 
+  @Column({ nullable: true })
+  previewImg: string;
+
+  @Column({ nullable: true })
+  semester: number;
+
   @OneToMany(() => Question, (post) => post)
   posts: Question[];
 

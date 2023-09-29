@@ -19,9 +19,9 @@ class SubjectRepository {
     subject.id = params.id;
     subject.title = params.title;
 
-    await this.repository.save(subject);
+    const newSubject = await this.repository.save(subject);
 
-    const subjectEntity = new Subject(params.id, params.title);
+    const subjectEntity = new Subject(newSubject);
 
     return subjectEntity;
   }
@@ -31,12 +31,16 @@ class SubjectRepository {
 
     if (!subject) return null;
 
-    const subjectEntity = new Subject(subject.id, subject.title);
+    const subjectEntity = new Subject(subject);
     return subjectEntity;
   }
 
   async list() {
+    const subjects = await this.repository.find();
 
+    const subjectEntities = subjects.map((subject) => new Subject(subject));
+
+    return subjectEntities;
   }
 }
 

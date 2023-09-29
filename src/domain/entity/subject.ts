@@ -1,6 +1,8 @@
 export interface ISubject {
   id: string;
   title: string;
+  previewImg: string;
+  semester: number;
 }
 
 class Subject {
@@ -8,9 +10,15 @@ class Subject {
 
   title: string;
 
-  constructor(id: string, title: string) {
-    this.id = id;
-    this.title = title;
+  previewImg: string;
+
+  semester: number;
+
+  constructor(params: ISubject) {
+    this.id = params.id;
+    this.title = params.title;
+    this.previewImg = params.previewImg;
+    this.semester = params.semester;
   }
 }
 

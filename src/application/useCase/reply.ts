@@ -3,8 +3,6 @@ import SessionService from '../../domain/service/session';
 import QuestionRepository from '../../infra/db/repository/question';
 import ReplyRepository from '../../infra/db/repository/reply';
 
-import QuestionEntity from '../../domain/entity/question';
-
 export interface ReplyDTO {
   content: string;
   anonymous: boolean;
@@ -13,7 +11,7 @@ export interface ReplyDTO {
 }
 
 @injectable()
-class Question {
+class Reply {
   constructor(
     @inject(SessionService) private readonly sessions: SessionService,
     @inject(ReplyRepository) private readonly replyRepository: ReplyRepository,
@@ -36,4 +34,4 @@ class Question {
   }
 }
 
-export default Question;
+export default Reply;
