@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './user';
 import { Subject } from './subject';
@@ -27,6 +27,9 @@ export class Question {
 
   @Column('text', { nullable: true, array: true })
   attachments: string[];
+
+  @CreateDateColumn()
+  publishedAt: Date;
 
   @ManyToOne(() => Subject, (subject) => subject)
   subject: Subject;

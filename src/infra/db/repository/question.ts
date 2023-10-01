@@ -78,6 +78,17 @@ class QuestionRepository {
     });
   }
 
+  async getSubjectPreview(subjectId: string) {
+    const questions = await this.repository.find({
+      where: { subject: { id: subjectId } },
+      relations: ['subject', 'professor'],
+      order: { publishedAt: 'DESC' },
+      take: 3,
+    });
+
+    return questions;
+  }
+
   async upvote(id: number): Promise<void> {
     const question = await this.repository.findOneBy({ id });
 

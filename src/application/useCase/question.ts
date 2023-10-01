@@ -55,13 +55,16 @@ class Question {
       subject,
     });
 
-    await this.subjectRepository.updateLastQuestion(subject.id, question);
-
     return question;
   }
 
   async list(keyword?: string) {
     const questions = await this.questionRepository.list(keyword);
+    return QuestionEntity.formatList(questions);
+  }
+
+  async getSubjectPreview(subjectId: string) {
+    const questions = await this.questionRepository.getSubjectPreview(subjectId);
     return QuestionEntity.formatList(questions);
   }
 

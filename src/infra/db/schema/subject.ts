@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Question } from './question';
 import { Tag } from './tag';
 import { Recommendation } from './recommendation';
@@ -16,10 +16,6 @@ export class Subject {
 
   @Column()
   semester: number;
-
-  @OneToOne(() => Question, (question) => question)
-  @JoinColumn()
-  lastQuestion: Question;
 
   @OneToMany(() => Question, (question) => question)
   questions: Question[];

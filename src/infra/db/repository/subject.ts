@@ -41,20 +41,11 @@ class SubjectRepository {
   }
 
   async list() {
-    const subjects = await this.repository.find({ relations: ['lastQuestion'] });
+    const subjects = await this.repository.find();
 
     const subjectEntities = subjects.map((subject) => new Subject(subject));
 
-    return subjectEntities;
-  }
-
-  async updateLastQuestion(id: string, question: Question) {
-    const subject = await this.repository.findOneBy({ id });
-
-    if (!subject) return null;
-
-    subject.lastQuestion = this.questionRepository.create(question);
-    await this.repository.save(subject);
+    return subjectEntities || [];
   }
 }
 
