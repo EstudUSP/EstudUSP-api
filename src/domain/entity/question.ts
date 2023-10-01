@@ -8,7 +8,7 @@ export interface IQuestion {
   content: string;
   upvote: number;
   anonymous: boolean;
-  user: IUser;
+  username: string;
   professor: Professor;
   attachments: string[];
   tags: Tag[];
@@ -37,7 +37,7 @@ class Question {
 
   anonymous: boolean;
 
-  user: IUser;
+  username: string;
 
   professor: Professor;
 
@@ -53,7 +53,7 @@ class Question {
     this.content = params.content;
     this.upvote = params.upvote;
     this.anonymous = params.anonymous;
-    this.user = params.user;
+    this.username = params.username;
     this.professor = params.professor;
     this.attachments = params.attachments;
     this.tags = params.tags;
@@ -77,12 +77,12 @@ class Question {
     });
 
     if (question.anonymous) {
-      delete question.user;
+      delete question.username;
     } else {
-      question.user = {
-        name: question.user.name,
-        profilePicture: question.user.profilePicture,
-      };
+      // question.user = {
+      //   name: question.user.name,
+      //   profilePicture: question.user.profilePicture,
+      // };
     }
 
     if (question.subject) {

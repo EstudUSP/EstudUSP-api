@@ -38,7 +38,7 @@ class QuestionRepository {
       content,
       tags,
       professor,
-      user,
+      username,
       attachments,
       subject,
     } = params;
@@ -49,8 +49,9 @@ class QuestionRepository {
     question.anonymous = anonymous;
     question.upvote = 0;
     question.content = content;
+    question.username = username;
     question.professor = this.professorRepository.create(professor);
-    question.user = this.userRepository.create(user);
+    // question.user = this.userRepository.create(user);
     question.tags = this.tagRepository.create(tags);
     question.attachments = attachments;
     question.subject = this.subjectRepository.create(subject);
@@ -65,7 +66,7 @@ class QuestionRepository {
   // @TODO: add tag filter
   list(keyword?: string): Promise<Question[]> {
     return this.repository.find({
-      relations: ['user', 'subject', 'professor'],
+      relations: ['subject', 'professor'],
       ...(keyword && {
         where: [
           { subject: { id: keyword } },
@@ -92,7 +93,7 @@ class QuestionRepository {
   async get(id: number) {
     const question = await this.repository.findOne({
       where: { id },
-      relations: ['user', 'subject', 'professor']
+      relations: ['subject', 'professor']
     });
 
     if (!question) {

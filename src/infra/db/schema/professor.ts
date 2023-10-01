@@ -10,8 +10,8 @@ export class Professor {
   @Column({ unique: true })
   name: string;
 
-  @OneToMany(() => Question, (post) => post)
-  posts: Question[];
+  @OneToMany(() => Question, (question) => question)
+  questions: Question[];
 
   @OneToMany(() => Recommendation, (recommendation) => recommendation)
   recommendations: Recommendation[];

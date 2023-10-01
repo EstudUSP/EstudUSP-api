@@ -19,8 +19,8 @@ export class User {
   @Column({ nullable: true })
   profilePicture: string;
 
-  @OneToMany(() => Question, (post) => post)
-  posts: Question[];
+  @OneToMany(() => Question, (question) => question)
+  questions: Question[];
 
   @OneToMany(() => Recommendation, (recommendation) => recommendation)
   recommendations: Recommendation[];

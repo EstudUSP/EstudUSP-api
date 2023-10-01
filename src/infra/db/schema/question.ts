@@ -22,6 +22,9 @@ export class Question {
   @Column()
   anonymous: boolean;
 
+  @Column({ nullable: true })
+  username: string;
+
   @Column('text', { nullable: true, array: true })
   attachments: string[];
 

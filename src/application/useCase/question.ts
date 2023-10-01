@@ -6,13 +6,14 @@ import QuestionRepository from '../../infra/db/repository/question';
 import SubjectRepository from '../../infra/db/repository/subject';
 
 import QuestionEntity from '../../domain/entity/question';
+import UserRepository from '../../infra/db/repository/user';
 
 export interface PostDTO {
   title: string;
   content: string;
   upvote: number;
   anonymous: boolean;
-  userToken: string;
+  username: string;
   professor: string;
   attachments: string[];
   tags: string[];
@@ -27,15 +28,16 @@ class Question {
     @inject(ProfessorRepository) private readonly professorRepository: ProfessorRepository,
     @inject(QuestionRepository) private readonly questionRepository: QuestionRepository,
     @inject(SubjectRepository) private readonly subjectRepository: SubjectRepository,
+    @inject(UserRepository) private readonly userRepository: UserRepository,
   ) {}
 
   async post(post: PostDTO) {
     // @TODO: move to auth middleware
-    const userSession = this.sessions.get(post.userToken);
+    // const userSession = this.userRepository.create(post.userToken);
 
-    if (!userSession) {
-      throw new Error('Session invalid');
-    }
+    // if (!userSession) {
+    //   throw new Error('Session invalid');
+    // }
 
     const subject = await this.subjectRepository.findById(post.subjectId);
 
@@ -43,13 +45,18 @@ class Question {
       throw new Error('Subject not found');
     }
 
+    console.log(post, subject);
+
     // @TODO: implements transactions
     const tags = await this.tagRepository.create(post.tags, subject);
-    const professor = await this.professorRepository.create(post.professor);
+    let professor = await this.professorRepository.get(post.professor);
+
+    if (!professor) {
+      professor = await this.professorRepository.create(post.professor);
+    }
 
     await this.questionRepository.create({
       ...post,
-      user: userSession,
       professor,
       tags,
       subject,

@@ -14,6 +14,16 @@ class ProfessorRepository {
     this.repository = this.db.getRepository(ProfessorSchema);
   }
 
+  async get(name: string) {
+    const newProfessor = await this.repository.findOneBy({ name });
+
+    if (!newProfessor) return null;
+
+    const professorEntity = new Professor(newProfessor.id, name);
+
+    return professorEntity;
+  }
+
   async create(name: string) {
     const professor = new ProfessorSchema();
     professor.name = name;
