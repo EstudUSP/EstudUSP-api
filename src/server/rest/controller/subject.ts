@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { Request, Response } from 'express';
 
 import SubjectUseCase from '../../../application/useCase/subject';
 
@@ -8,8 +9,9 @@ class Subject {
     @inject(SubjectUseCase) private readonly subject: SubjectUseCase,
   ) {}
 
-  list() {
-    return this.subject.list();
+  async list(req: Request, res: Response) {
+    const subjects = await this.subject.list();
+    return res.status(200).json(subjects);
   }
 }
 

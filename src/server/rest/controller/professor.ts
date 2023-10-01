@@ -1,4 +1,5 @@
 import { inject, injectable } from 'inversify';
+import { Request, Response } from 'express';
 
 import ProfessorUseCase from '../../../application/useCase/professor';
 
@@ -8,8 +9,9 @@ class ProfessorController {
     @inject(ProfessorUseCase) private readonly professor: ProfessorUseCase,
   ) {}
 
-  list() {
-    return this.professor.list();
+  async list(req: Request, res: Response) {
+    const professors = await this.professor.list();
+    return res.status(200).json(professors);
   }
 }
 

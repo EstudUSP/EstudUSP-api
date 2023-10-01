@@ -6,7 +6,6 @@ import { inject, injectable } from 'inversify';
 import winston from 'winston';
 
 import IRouter from './router';
-import { createServer } from '../';
 
 import logger, { winstonFormat } from '../../infra/logger';
 const console = logger.child({ label: 'HTTPS Server' });
@@ -44,10 +43,8 @@ export default class RestServer {
       await app.use(iRouter);
     }
 
-    const server = createServer(port, app);
+    app.listen(port);
 
-    server.on('listening', () => {
-      console.info(`HTTPS server initialized on ${port}`);
-    });
+    console.info(`HTTPS server initialized on ${port}`);
   }
 }
