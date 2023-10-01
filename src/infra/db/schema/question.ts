@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { User } from './user';
 import { Subject } from './subject';
@@ -31,8 +31,8 @@ export class Question {
   @ManyToOne(() => Subject, (subject) => subject)
   subject: Subject;
 
-  @ManyToOne(() => User, (user) => user)
-  user: User;
+  // @ManyToOne(() => User, (user) => user)
+  // user: User;
 
   @ManyToOne(() => Professor, (professor) => professor)
   professor: Professor;

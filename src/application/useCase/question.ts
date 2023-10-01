@@ -32,13 +32,6 @@ class Question {
   ) {}
 
   async post(post: PostDTO) {
-    // @TODO: move to auth middleware
-    // const userSession = this.userRepository.create(post.userToken);
-
-    // if (!userSession) {
-    //   throw new Error('Session invalid');
-    // }
-
     const subject = await this.subjectRepository.findById(post.subjectId);
 
     if (!subject) {
@@ -55,12 +48,16 @@ class Question {
       professor = await this.professorRepository.create(post.professor);
     }
 
-    await this.questionRepository.create({
+    const question = await this.questionRepository.create({
       ...post,
       professor,
       tags,
       subject,
     });
+
+    await this.subjectRepository.updateLastQuestion(subject.id, question);
+
+    return question;
   }
 
   async list(keyword?: string) {
