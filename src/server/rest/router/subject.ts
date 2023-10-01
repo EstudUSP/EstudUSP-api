@@ -11,7 +11,7 @@ export default class SubjectRouter {
 
   async loadRouter() {
     const router = Router();
-    router.post('/subjects', this.subjectController.list.bind(this.subjectController));
+    router.get('/subjects', this.subjectController.list.bind(this.subjectController));
 
     return router;
   }

@@ -11,7 +11,7 @@ export default class ProfessorRouter {
 
   async loadRouter() {
     const router = Router();
-    router.post('/professors', this.professorController.list.bind(this.professorController));
+    router.get('/professors', this.professorController.list.bind(this.professorController));
 
     return router;
   }
