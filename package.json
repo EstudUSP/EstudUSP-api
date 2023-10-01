@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "lint": "npx eslint --fix ./src/*",
-    "build": "rm -rf ./dist && tsc && cp -R ./src/server/ssl ./dist/server/ssl",
+    "build": "tsc && cp -R ./src/server/ssl ./dist/server/ssl",
     "postinstall": "npm run build",
     "test": "jest",
     "prepare": "husky install"
