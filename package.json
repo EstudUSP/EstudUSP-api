@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "lint": "npx eslint --fix ./src/*",
-    "build": "rm -rf ./dist && tsc && cp -R ./src/server/ssl ./dist/server/ssl",
-    "postinstall": "npm run build",
+    "build": "tsc && cp -R ./src/server/ssl ./dist/server/ssl",
+    "postinstall": "",
     "test": "jest",
     "prepare": "husky install"
   },
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/stoneparker/EstudUSP-api.git#readme",
   "devDependencies": {
     "@faker-js/faker": "^8.1.0",
+    "@flydotio/dockerfile": "^0.4.10",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.4",
