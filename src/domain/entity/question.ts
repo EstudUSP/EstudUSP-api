@@ -6,7 +6,7 @@ import { IUser } from './user';
 export interface IQuestion {
   title: string;
   content: string;
-  upvote: number;
+  upvotes: number;
   anonymous: boolean;
   username: string;
   professor: Professor;
@@ -19,11 +19,12 @@ export interface IQuestionList {
   id: number;
   title: string;
   content: string;
-  upvote: number;
+  upvotes: number;
   anonymous: boolean;
   user: { name: string, profilePicture: string };
   subject: string;
   attachments: string[];
+  publishedAt: Date;
 }
 
 class Question {
@@ -33,7 +34,7 @@ class Question {
 
   content: string;
 
-  upvote: number;
+  upvotes: number;
 
   anonymous: boolean;
 
@@ -47,17 +48,20 @@ class Question {
 
   subject: Subject;
 
+  publishedAt: Date;
+
   constructor(id: number, params: IQuestion) {
     this.id = id;
     this.title = params.title;
     this.content = params.content;
-    this.upvote = params.upvote;
+    this.upvotes = params.upvotes;
     this.anonymous = params.anonymous;
     this.username = params.username;
     this.professor = params.professor;
     this.attachments = params.attachments;
     this.tags = params.tags;
     this.subject = params.subject;
+    this.publishedAt = new Date();
   }
 
   // @TODO: move to DTO

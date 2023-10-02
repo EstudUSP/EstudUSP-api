@@ -1,17 +1,18 @@
 import { inject, injectable } from 'inversify';
 import SessionService from '../../domain/service/session';
+import QuestionEntity from '../../domain/entity/question';
+
 import TagRepository from '../../infra/db/repository/tag';
 import ProfessorRepository from '../../infra/db/repository/professor';
 import QuestionRepository from '../../infra/db/repository/question';
 import SubjectRepository from '../../infra/db/repository/subject';
-
-import QuestionEntity from '../../domain/entity/question';
 import UserRepository from '../../infra/db/repository/user';
+import ReplyRepository from '../../infra/db/repository/reply';
 
 export interface PostDTO {
   title: string;
   content: string;
-  upvote: number;
+  upvotes: number;
   anonymous: boolean;
   username: string;
   professor: string;
@@ -29,6 +30,7 @@ class Question {
     @inject(QuestionRepository) private readonly questionRepository: QuestionRepository,
     @inject(SubjectRepository) private readonly subjectRepository: SubjectRepository,
     @inject(UserRepository) private readonly userRepository: UserRepository,
+    @inject(ReplyRepository) private readonly replyRepository: ReplyRepository,
   ) {}
 
   async post(post: PostDTO) {
@@ -55,11 +57,11 @@ class Question {
       subject,
     });
 
-    return question;
+    return QuestionEntity.format(question);
   }
 
-  async list(keyword?: string) {
-    const questions = await this.questionRepository.list(keyword);
+  async list(subjectId: string, keyword?: string) {
+    const questions = await this.questionRepository.list(subjectId, keyword);
     return QuestionEntity.formatList(questions);
   }
 
@@ -76,6 +78,11 @@ class Question {
   async get(id: number) {
     const question = await this.questionRepository.get(id);
     return QuestionEntity.format(question);
+  }
+
+  async listReplies(id: number) {
+    const replies = await this.replyRepository.list(id);
+    return replies;
   }
 }
 

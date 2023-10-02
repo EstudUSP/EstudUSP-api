@@ -15,6 +15,7 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  url: process.env.DATABASE_URL,
   synchronize: true,
   subscribers: [],
   migrations: [],

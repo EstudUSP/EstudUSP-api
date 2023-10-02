@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user';
 import { Question } from './question';
 
@@ -10,17 +10,20 @@ export class Reply {
   @Column()
   content: string;
 
-  @Column()
-  likes: number;
+  @Column({ default: 0 })
+  upvotes: number;
 
-  @Column()
-  dislikes: number;
+  @Column({ default: 0 })
+  downvotes: number;
 
   @Column()
   anonymous: boolean;
 
   @Column('text', { nullable: true, array: true })
   attachments: string[];
+
+  @CreateDateColumn()
+  publishedAt: Date;
 
   @ManyToOne(() => User, (user) => user)
   user: User;

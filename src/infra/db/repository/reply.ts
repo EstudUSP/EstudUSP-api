@@ -40,14 +40,23 @@ class ReplyRepository {
     const reply = new ReplySchema();
 
     reply.anonymous = anonymous;
-    reply.likes = 0;
-    reply.dislikes = 0;
+    reply.upvotes = 0;
+    reply.downvotes = 0;
     reply.content = content;
     reply.attachments = attachments;
     reply.user = this.userRepository.create(user);
     reply.question = question;
 
     return this.repository.save(reply);
+  }
+
+  async list(questionId: number) {
+    return this.repository.find({
+      where: {
+        question: { id: questionId },
+      },
+      relations: ['user'],
+    });
   }
 }
 

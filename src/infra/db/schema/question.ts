@@ -16,8 +16,14 @@ export class Question {
   @Column()
   content: string;
 
-  @Column()
-  upvote: number;
+  @Column({ default: 0 })
+  upvotes: number;
+
+  @Column({ default: 0 })
+  downvotes: number;
+
+  @Column({ default: 0 })
+  sameQuestion: number;
 
   @Column()
   anonymous: boolean;

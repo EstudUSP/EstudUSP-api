@@ -47,7 +47,7 @@ class QuestionRepository {
 
     question.title = title;
     question.anonymous = anonymous;
-    question.upvote = 0;
+    question.upvotes = 0;
     question.content = content;
     question.username = username;
     question.professor = this.professorRepository.create(professor);
@@ -64,17 +64,14 @@ class QuestionRepository {
   }
 
   // @TODO: add tag filter
-  list(keyword?: string): Promise<Question[]> {
+  list(subjectId: string, keyword?: string): Promise<QuestionSchema[]> {
     return this.repository.find({
       relations: ['subject', 'professor'],
-      ...(keyword && {
-        where: [
-          { subject: { id: keyword } },
-          { subject: { title: keyword } },
-          { professor: { name: keyword } },
-          // { tags: { title: keyword } },
-        ]
-      }),
+      where: [
+        { subject: { id: subjectId } },
+        ...[keyword ? { professor: { name: keyword } } : {}]
+      ],
+      order: { publishedAt: 'DESC' },
     });
   }
 
@@ -96,7 +93,7 @@ class QuestionRepository {
       throw new Error('Question not found');
     }
 
-    question.upvote += 1;
+    question.upvotes += 1;
 
     await this.repository.save(question);
   }

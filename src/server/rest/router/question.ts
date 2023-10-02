@@ -23,7 +23,11 @@ export default class QuestionRouter {
 
   async loadRouter() {
     const router = Router();
-    router.post('/question', upload.array('attachments', 5), this.questionController.post.bind(this.questionController));
+    router.post('/:subjectId/question',
+      upload.array('attachments', 5), this.questionController.post.bind(this.questionController)
+    );
+    router.get('/:subjectId/questions', this.questionController.list.bind(this.questionController));
+    router.get('/question/:questionId/replies', this.questionController.listReplies.bind(this.questionController));
 
     return router;
   }
