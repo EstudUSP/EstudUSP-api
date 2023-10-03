@@ -15,12 +15,7 @@ export default class QuestionController {
     const { title, content, anonymous, professor, username, tags } = req.body;
     const subjectId = req.params.subjectId;
 
-    const proxyHost = req.headers['x-forwarded-host'];
-    const host = proxyHost ? proxyHost : req.headers.host;
-
-    const attachments = !req.files ? [] : (req.files as []).map((file: Express.Multer.File) => (
-      req.protocol + '://' + host + '/files/' + file?.filename.replaceAll(' ', '%20')
-    ));
+    const attachments = this.formatAttachments(req);
 
     const question: PostDTO = {
       title,
@@ -120,12 +115,7 @@ export default class QuestionController {
     const questionId = Number(req.params.questionId);
     const { content, username } = req.body;
 
-    const proxyHost = req.headers['x-forwarded-host'];
-    const host = proxyHost ? proxyHost : req.headers.host;
-
-    const attachments = !req.files ? [] : (req.files as []).map((file: Express.Multer.File) => (
-      req.protocol + '://' + host + '/files/' + file?.filename.replaceAll(' ', '%20')
-    ));
+    const attachments = this.formatAttachments(req);
 
     const reply = {
       content,
@@ -164,5 +154,16 @@ export default class QuestionController {
       console.error(err);
       res.status(500).json(err.message);
     }
+  }
+
+  private formatAttachments(req: Request) {
+    const proxyHost = req.headers['x-forwarded-host'];
+    const host = proxyHost ? proxyHost : req.headers.host;
+
+    const attachments = !req.files ? [] : (req.files as []).map((file: Express.Multer.File) => (
+      req.protocol + '://' + host + '/files/' + file?.filename.replaceAll(' ', '%20')
+    ));
+
+    return attachments;
   }
 }
