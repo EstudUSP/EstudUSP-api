@@ -96,9 +96,8 @@ class Question {
       question.professor = question.professor.name;
     }
 
-    // if (!question.replies) {
-    //   question
-    // }
+    question.repliesQuantity = question.replies.length;
+    delete question.replies;
 
     return question;
   }

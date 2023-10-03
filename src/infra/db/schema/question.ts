@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Subject } from './subject';
 import { Professor } from './professor';
 import { Tag } from './tag';
+import { Reply } from './reply';
 
 @Entity()
 export class Question {
@@ -45,4 +46,7 @@ export class Question {
   @ManyToMany(() => Tag, (tag) => tag)
   @JoinTable()
   tags: Tag[];
+
+  @OneToMany(() => Reply, (reply) => reply.question)
+  replies: Reply[];
 }

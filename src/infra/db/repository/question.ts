@@ -69,7 +69,7 @@ class QuestionRepository {
   // @TODO: add tag filter
   list(subjectId: string, keyword?: string): Promise<QuestionSchema[]> {
     return this.repository.find({
-      relations: ['subject', 'professor'],
+      relations: ['subject', 'professor', 'replies'],
       where: [
         { subject: { id: subjectId } },
         ...[keyword ? { professor: { name: keyword } } : {}]
