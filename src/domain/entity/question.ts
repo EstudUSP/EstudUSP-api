@@ -9,7 +9,7 @@ export interface IQuestion {
   upvotes: number;
   anonymous: boolean;
   username: string;
-  professor: Professor;
+  professor?: Professor;
   attachments: string[];
   tags: Tag[];
   subject: Subject;
@@ -40,7 +40,7 @@ class Question {
 
   username: string;
 
-  professor: Professor;
+  professor?: Professor;
 
   attachments: string[];
 

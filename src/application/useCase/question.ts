@@ -44,17 +44,22 @@ class Question {
 
     // @TODO: implements transactions
     const tags = await this.tagRepository.create(post.tags, subject);
-    let professor = await this.professorRepository.get(post.professor);
 
-    if (!professor) {
-      professor = await this.professorRepository.create(post.professor);
+    let professor;
+
+    if (post.professor) {
+      professor = await this.professorRepository.get(post.professor);
+
+      if (!professor) {
+        professor = await this.professorRepository.create(post.professor);
+      }
     }
 
     const question = await this.questionRepository.create({
       ...post,
-      professor,
       tags,
       subject,
+      professor,
     });
 
     return QuestionEntity.format(question);

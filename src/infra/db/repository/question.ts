@@ -50,7 +50,10 @@ class QuestionRepository {
     question.upvotes = 0;
     question.content = content;
     question.username = username;
-    question.professor = this.professorRepository.create(professor);
+
+    if (professor) {
+      question.professor = this.professorRepository.create(professor);
+    }
     // question.user = this.userRepository.create(user);
     question.tags = this.tagRepository.create(tags);
     question.attachments = attachments;
