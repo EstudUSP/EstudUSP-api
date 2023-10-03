@@ -55,6 +55,30 @@ class ReplyRepository {
       relations: ['question'],
     });
   }
+
+  async upvote(id: number) {
+    const reply = await this.repository.findOneBy({ id });
+
+    if (!reply) {
+      throw new Error('Reply not found');
+    }
+
+    reply.upvotes += 1;
+
+    return this.repository.save(reply);
+  }
+
+  async downvote(id: number) {
+    const reply = await this.repository.findOneBy({ id });
+
+    if (!reply) {
+      throw new Error('Reply not found');
+    }
+
+    reply.upvotes -= 1;
+
+    return this.repository.save(reply);
+  }
 }
 
 export default ReplyRepository;

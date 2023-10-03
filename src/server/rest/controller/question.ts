@@ -15,8 +15,6 @@ export default class QuestionController {
     const { title, content, anonymous, professor, username, tags } = req.body;
     const subjectId = req.params.subjectId;
 
-    console.log(req.files);
-
     const proxyHost = req.headers['x-forwarded-host'];
     const host = proxyHost ? proxyHost : req.headers.host;
 
@@ -122,15 +120,46 @@ export default class QuestionController {
     const questionId = Number(req.params.questionId);
     const { content, username } = req.body;
 
+    const proxyHost = req.headers['x-forwarded-host'];
+    const host = proxyHost ? proxyHost : req.headers.host;
+
+    const attachments = !req.files ? [] : (req.files as []).map((file: Express.Multer.File) => (
+      req.protocol + '://' + host + '/files/' + file?.filename.replaceAll(' ', '%20')
+    ));
+
     const reply = {
       content,
       username,
-      attachments: [],
+      attachments,
     };
 
     try {
       const newReply = await this.reply.replyTo(questionId, reply);
       res.status(201).json(newReply);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
+
+  async replyUpvote(req: Request, res: Response) {
+    const replyId = Number(req.params.replyId);
+
+    try {
+      await this.reply.upvote(replyId);
+      res.status(200).json();
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
+
+  async replyDonwvote(req: Request, res: Response) {
+    const replyId = Number(req.params.replyId);
+
+    try {
+      await this.reply.downvote(replyId);
+      res.status(200).json();
     } catch (err) {
       console.error(err);
       res.status(500).json(err.message);

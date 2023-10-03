@@ -54,7 +54,18 @@ export default class QuestionRouter {
     );
     router.post(
       '/question/:questionId/reply',
+      upload.array('attachments', 5),
       this.questionController.replyTo.bind(this.questionController)
+    );
+
+    router.patch(
+      '/reply/:replyId/upvote',
+      this.questionController.replyUpvote.bind(this.questionController)
+    );
+
+    router.patch(
+      '/reply/:replyId/downvote',
+      this.questionController.replyDonwvote.bind(this.questionController)
     );
 
     return router;

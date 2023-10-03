@@ -1,5 +1,4 @@
 import { inject, injectable } from 'inversify';
-import QuestionRepository from '../../infra/db/repository/question';
 import ReplyRepository from '../../infra/db/repository/reply';
 
 import ReplyEntity from '../../domain/entity/reply';
@@ -14,7 +13,6 @@ export interface ReplyDTO {
 class Reply {
   constructor(
     @inject(ReplyRepository) private readonly replyRepository: ReplyRepository,
-    @inject(QuestionRepository) private readonly questionRepository: QuestionRepository,
   ) {}
 
   async replyTo(questionId: number, reply: ReplyDTO) {
@@ -23,7 +21,11 @@ class Reply {
   }
 
   upvote(id: number) {
-    // return this.replyRepository.upvote(id);
+    return this.replyRepository.upvote(id);
+  }
+
+  downvote(id: number) {
+    return this.replyRepository.downvote(id);
   }
 
   async list(id: number) {

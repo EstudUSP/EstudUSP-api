@@ -24,6 +24,7 @@ export default class RestServer {
     app.use(helmet.ieNoOpen());
     app.use(helmet.noSniff());
     app.use(helmet.dnsPrefetchControl({ allow: false }));
+    app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
     app.use(express.json());
     app.use('/files', express.static(process.cwd() + '/uploads'));
 
