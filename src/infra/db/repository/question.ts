@@ -101,6 +101,20 @@ class QuestionRepository {
     await this.repository.save(question);
   }
 
+  async downvote(id: number): Promise<void> {
+    const question = await this.repository.findOneBy({ id });
+
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    question.upvotes -= 1;
+
+    if (question.upvotes < 0) return;
+
+    await this.repository.save(question);
+  }
+
   async get(id: number) {
     const question = await this.repository.findOne({
       where: { id },

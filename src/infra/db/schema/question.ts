@@ -1,6 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User } from './user';
 import { Subject } from './subject';
 import { Professor } from './professor';
 import { Tag } from './tag';
@@ -18,9 +17,6 @@ export class Question {
 
   @Column({ default: 0 })
   upvotes: number;
-
-  @Column({ default: 0 })
-  downvotes: number;
 
   @Column({ default: 0 })
   sameQuestion: number;

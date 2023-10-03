@@ -28,6 +28,8 @@ export default class QuestionRouter {
     );
     router.get('/:subjectId/questions', this.questionController.list.bind(this.questionController));
     router.get('/question/:questionId/replies', this.questionController.listReplies.bind(this.questionController));
+    router.patch('/question/:questionId/upvote', this.questionController.upvote.bind(this.questionController));
+    router.patch('/question/:questionId/downvote', this.questionController.downvote.bind(this.questionController));
 
     return router;
   }

@@ -1,7 +1,6 @@
 import Professor from './professor';
 import Subject from './subject';
 import Tag from './tag';
-import { IUser } from './user';
 
 export interface IQuestion {
   title: string;

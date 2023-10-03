@@ -75,9 +75,12 @@ class Question {
     return QuestionEntity.formatList(questions);
   }
 
-  // @TODO: handle downvote
   upvote(id: number) {
     return this.questionRepository.upvote(id);
+  }
+
+  downvote(id: number) {
+    return this.questionRepository.downvote(id);
   }
 
   async get(id: number) {

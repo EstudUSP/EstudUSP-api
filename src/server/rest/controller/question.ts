@@ -67,4 +67,28 @@ export default class AuthController {
       res.status(500).json(err.message);
     }
   }
+
+  async upvote(req: Request, res: Response) {
+    const questionId = Number(req.params.questionId);
+
+    try {
+      await this.question.upvote(questionId);
+      res.status(200).json();
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
+
+  async downvote(req: Request, res: Response) {
+    const questionId = Number(req.params.questionId);
+
+    try {
+      await this.question.downvote(questionId);
+      res.status(200).json();
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
 }

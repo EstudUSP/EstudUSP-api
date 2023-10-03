@@ -41,7 +41,6 @@ class ReplyRepository {
 
     reply.anonymous = anonymous;
     reply.upvotes = 0;
-    reply.downvotes = 0;
     reply.content = content;
     reply.attachments = attachments;
     reply.user = this.userRepository.create(user);
