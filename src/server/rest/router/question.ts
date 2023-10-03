@@ -52,6 +52,10 @@ export default class QuestionRouter {
       '/question/:questionId/removeSameQuestion',
       this.questionController.removeSameQuestion.bind(this.questionController)
     );
+    router.post(
+      '/question/:questionId/reply',
+      this.questionController.replyTo.bind(this.questionController)
+    );
 
     return router;
   }

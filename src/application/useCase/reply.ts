@@ -1,36 +1,34 @@
 import { inject, injectable } from 'inversify';
-import SessionService from '../../domain/service/session';
 import QuestionRepository from '../../infra/db/repository/question';
 import ReplyRepository from '../../infra/db/repository/reply';
 
+import ReplyEntity from '../../domain/entity/reply';
+
 export interface ReplyDTO {
   content: string;
-  anonymous: boolean;
-  userToken: string;
+  username: string;
   attachments: string[];
 }
 
 @injectable()
 class Reply {
   constructor(
-    @inject(SessionService) private readonly sessions: SessionService,
     @inject(ReplyRepository) private readonly replyRepository: ReplyRepository,
     @inject(QuestionRepository) private readonly questionRepository: QuestionRepository,
   ) {}
 
   async replyTo(questionId: number, reply: ReplyDTO) {
-    // @TODO: move to auth middleware
-    const userSession = this.sessions.get(reply.userToken);
-
-    if (!userSession) {
-      throw new Error('Session invalid');
-    }
-
-    await this.replyRepository.create(questionId, reply, userSession);
+    const newReply = await this.replyRepository.create(questionId, reply);
+    return ReplyEntity.format(newReply);
   }
 
   upvote(id: number) {
-    return this.questionRepository.upvote(id);
+    // return this.replyRepository.upvote(id);
+  }
+
+  async list(id: number) {
+    const repliesList = await this.replyRepository.list(id);
+    return ReplyEntity.formatList(repliesList);
   }
 }
 

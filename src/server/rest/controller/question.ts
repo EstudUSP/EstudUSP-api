@@ -2,11 +2,13 @@ import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 
 import QuestionUseCase, { PostDTO } from '../../../application/useCase/question';
+import ReplyUseCase from '../../../application/useCase/reply';
 
 @injectable()
-export default class AuthController {
+export default class QuestionController {
   constructor(
     @inject(QuestionUseCase) private readonly question: QuestionUseCase,
+    @inject(ReplyUseCase) private readonly reply: ReplyUseCase,
   ) {}
 
   async post(req: Request, res: Response) {
@@ -60,7 +62,7 @@ export default class AuthController {
     const questionId = Number(req.params.questionId);
 
     try {
-      const replies = await this.question.listReplies(questionId);
+      const replies = await this.reply.list(questionId);
       return res.status(200).json(replies);
     } catch (err) {
       console.error(err);
@@ -110,6 +112,25 @@ export default class AuthController {
     try {
       const question = await this.question.removeSameQuestion(questionId);
       res.status(200).json(question);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
+
+  async replyTo(req: Request, res: Response) {
+    const questionId = Number(req.params.questionId);
+    const { content, username } = req.body;
+
+    const reply = {
+      content,
+      username,
+      attachments: [],
+    };
+
+    try {
+      const newReply = await this.reply.replyTo(questionId, reply);
+      res.status(201).json(newReply);
     } catch (err) {
       console.error(err);
       res.status(500).json(err.message);

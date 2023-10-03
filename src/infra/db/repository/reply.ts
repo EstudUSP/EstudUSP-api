@@ -6,7 +6,6 @@ import { Reply as ReplySchema } from '../schema/reply';
 import { Question as QuestionSchema } from '../schema/question';
 
 import { ReplyDTO } from '../../../application/useCase/reply';
-import User from '../../../domain/entity/user';
 
 @injectable()
 class ReplyRepository {
@@ -24,11 +23,11 @@ class ReplyRepository {
     this.questionRepository = this.db.getRepository(QuestionSchema);
   }
 
-  async create(questionId: number, params: ReplyDTO, user: User) {
+  async create(questionId: number, params: ReplyDTO) {
     const {
-      anonymous,
       content,
       attachments,
+      username,
     } = params;
 
     const question = await this.questionRepository.findOneBy({ id: questionId });
@@ -39,11 +38,10 @@ class ReplyRepository {
 
     const reply = new ReplySchema();
 
-    reply.anonymous = anonymous;
     reply.upvotes = 0;
     reply.content = content;
     reply.attachments = attachments;
-    reply.user = this.userRepository.create(user);
+    reply.username = username;
     reply.question = question;
 
     return this.repository.save(reply);
@@ -54,7 +52,7 @@ class ReplyRepository {
       where: {
         question: { id: questionId },
       },
-      relations: ['user'],
+      relations: ['question'],
     });
   }
 }

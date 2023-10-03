@@ -88,10 +88,6 @@ class Question {
     return QuestionEntity.format(question);
   }
 
-  listReplies(id: number) {
-    return this.replyRepository.list(id);
-  }
-
   async sameQuestion(id: number) {
     return this.questionRepository.sameQuestion(id);
   }

@@ -13,11 +13,11 @@ export class Reply {
   @Column({ default: 0 })
   upvotes: number;
 
-  @Column()
-  anonymous: boolean;
-
   @Column('text', { nullable: true, array: true })
   attachments: string[];
+
+  @Column({ nullable: true })
+  username: string;
 
   @CreateDateColumn()
   publishedAt: Date;
