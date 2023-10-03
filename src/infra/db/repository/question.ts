@@ -127,6 +127,32 @@ class QuestionRepository {
 
     return question;
   }
+
+  async sameQuestion(id: number) {
+    const question = await this.repository.findOneBy({ id });
+
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    question.sameQuestion += 1;
+
+    await this.repository.save(question);
+  }
+
+  async removeSameQuestion(id: number) {
+    const question = await this.repository.findOneBy({ id });
+
+    if (!question) {
+      throw new Error('Question not found');
+    }
+
+    question.sameQuestion -= 1;
+
+    if (question.sameQuestion < 0) return;
+
+    await this.repository.save(question);
+  }
 }
 
 export default QuestionRepository;

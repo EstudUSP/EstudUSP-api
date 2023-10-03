@@ -23,13 +23,35 @@ export default class QuestionRouter {
 
   async loadRouter() {
     const router = Router();
-    router.post('/:subjectId/question',
-      upload.array('attachments', 5), this.questionController.post.bind(this.questionController)
+    router.post(
+      '/:subjectId/question',
+      upload.array('attachments', 5),
+      this.questionController.post.bind(this.questionController)
     );
-    router.get('/:subjectId/questions', this.questionController.list.bind(this.questionController));
-    router.get('/question/:questionId/replies', this.questionController.listReplies.bind(this.questionController));
-    router.patch('/question/:questionId/upvote', this.questionController.upvote.bind(this.questionController));
-    router.patch('/question/:questionId/downvote', this.questionController.downvote.bind(this.questionController));
+    router.get(
+      '/:subjectId/questions',
+      this.questionController.list.bind(this.questionController)
+    );
+    router.get(
+      '/question/:questionId/replies',
+      this.questionController.listReplies.bind(this.questionController)
+    );
+    router.patch(
+      '/question/:questionId/upvote',
+      this.questionController.upvote.bind(this.questionController)
+    );
+    router.patch(
+      '/question/:questionId/downvote',
+      this.questionController.downvote.bind(this.questionController)
+    );
+    router.patch(
+      '/question/:questionId/sameQuestion',
+      this.questionController.sameQuestion.bind(this.questionController)
+    );
+    router.patch(
+      '/question/:questionId/removeSameQuestion',
+      this.questionController.removeSameQuestion.bind(this.questionController)
+    );
 
     return router;
   }

@@ -88,9 +88,16 @@ class Question {
     return QuestionEntity.format(question);
   }
 
-  async listReplies(id: number) {
-    const replies = await this.replyRepository.list(id);
-    return replies;
+  listReplies(id: number) {
+    return this.replyRepository.list(id);
+  }
+
+  async sameQuestion(id: number) {
+    return this.questionRepository.sameQuestion(id);
+  }
+
+  async removeSameQuestion(id: number) {
+    return this.questionRepository.removeSameQuestion(id);
   }
 }
 

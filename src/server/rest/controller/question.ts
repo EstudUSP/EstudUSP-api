@@ -91,4 +91,28 @@ export default class AuthController {
       res.status(500).json(err.message);
     }
   }
+
+  async sameQuestion(req: Request, res: Response) {
+    const questionId = Number(req.params.questionId);
+
+    try {
+      const question = await this.question.sameQuestion(questionId);
+      res.status(200).json(question);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
+
+  async removeSameQuestion(req: Request, res: Response) {
+    const questionId = Number(req.params.questionId);
+
+    try {
+      const question = await this.question.removeSameQuestion(questionId);
+      res.status(200).json(question);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err.message);
+    }
+  }
 }
