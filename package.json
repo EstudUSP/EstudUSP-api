@@ -9,8 +9,7 @@
     "build": "tsc",
     "postinstall": "",
     "test": "jest",
-    "prepare": "husky install",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -53,7 +52,6 @@
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.7.2",
     "typeorm": "^0.3.17",
-    "typeorm-seeding": "^1.6.1",
     "winston": "^3.10.0"
   }
 }

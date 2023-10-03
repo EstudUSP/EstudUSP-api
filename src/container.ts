@@ -7,6 +7,7 @@ import RestServer from './server/rest';
 
 import AppDataSource from './infra/db';
 import logger from './infra/logger';
+import CreateSubjectsSeed from './infra/db/seed/subjects';
 
 const console = logger.child({ label: 'Container' });
 
@@ -35,11 +36,20 @@ export class BuildContainer {
   async factory(): Promise<Container> {
     const container = new Container();
 
+    await this.load(container, path.resolve(__dirname, './infra/db/seed'), Scope.SINGLETON);
+    await this.loadList(container, path.resolve(__dirname, './infra/db/seed'), 'seeds');
+
     try {
       const datasource = await AppDataSource.initialize();
       container.bind(DataSource).toConstantValue(datasource).whenTargetIsDefault();
 
-      console.info('Data source initialized');
+      console.info('Data source initialized. Running seeds...');
+
+      const subjectSeed = new CreateSubjectsSeed();
+      subjectSeed.run(datasource);
+
+      // const seed: ISeed[] = container.getAllNamed(ISeed, 'seeds');
+      // seed.run();
     } catch(err) {
       console.error('Error during Data Source initialization', err);
     }
