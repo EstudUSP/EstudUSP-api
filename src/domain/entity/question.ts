@@ -96,7 +96,7 @@ class Question {
       question.professor = question.professor.name;
     }
 
-    question.repliesQuantity = question.replies.length;
+    question.repliesQuantity = question.replies?.length || 0;
     delete question.replies;
 
     return question;

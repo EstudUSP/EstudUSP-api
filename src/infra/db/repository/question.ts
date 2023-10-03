@@ -50,6 +50,7 @@ class QuestionRepository {
     question.upvotes = 0;
     question.content = content;
     question.username = username;
+    question.sameQuestion = 0;
 
     if (professor) {
       question.professor = this.professorRepository.create(professor);
@@ -61,9 +62,7 @@ class QuestionRepository {
 
     const savedQuestion = await this.repository.save(question);
 
-    const QuestionEntity = new Question(savedQuestion.id, params);
-
-    return QuestionEntity;
+    return savedQuestion;
   }
 
   // @TODO: add tag filter
