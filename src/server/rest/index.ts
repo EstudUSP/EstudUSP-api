@@ -4,6 +4,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { inject, injectable } from 'inversify';
 import winston from 'winston';
+import fs from 'fs';
+
+const dir = './uploads';
 
 import IRouter from './router';
 
@@ -42,6 +45,10 @@ export default class RestServer {
     for (const router of this.routers) {
       const iRouter = await router.loadRouter();
       await app.use(iRouter);
+    }
+
+    if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
     }
 
     app.listen(port);
