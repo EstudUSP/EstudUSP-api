@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSource, Like, Repository } from 'typeorm';
+import { DataSource, ILike, Repository } from 'typeorm';
 
 import { Subject as SubjectSchema } from '../schema/subject';
 import { Question as QuestionSchema } from '../schema/question';
@@ -42,7 +42,7 @@ class SubjectRepository {
   async list(keyword?: string) {
     const subjects = await this.repository.find({
       ...(keyword && { where: {
-        title: Like(`%${keyword}%`)
+        title: ILike(`%${keyword}%`)
       } })
     });
 

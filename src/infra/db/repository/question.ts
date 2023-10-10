@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSource, Like, Repository } from 'typeorm';
+import { DataSource, ILike, Repository } from 'typeorm';
 
 import { Question as QuestionSchema } from '../schema/question';
 import { Tag as TagSchema } from '../schema/tag';
@@ -76,11 +76,11 @@ class QuestionRepository {
       where: [
         {
           ...defaultQuery,
-          ...(keyword ? { title: Like(`%${keyword}%`) } : {}),
+          ...(keyword ? { title: ILike(`%${keyword}%`) } : {}),
         },
         {
           ...defaultQuery,
-          ...(keyword ? { username: Like(`%${keyword}%`) } : {}),
+          ...(keyword ? { username: ILike(`%${keyword}%`) } : {}),
         },
       ],
       order: { publishedAt: 'DESC' },
