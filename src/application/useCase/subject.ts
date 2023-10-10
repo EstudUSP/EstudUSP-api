@@ -12,10 +12,9 @@ class Subject {
     @inject(QuestionRepository) private readonly questionRepository: QuestionRepository,
   ) {}
 
-  async list() {
-    const subjects: SubjectEntity[] = await this.subjectRepository.list();
+  async list(keyword?: string) {
+    const subjects: SubjectEntity[] = await this.subjectRepository.list(keyword);
 
-    console.log(subjects);
     if (!subjects) return [];
 
     const complete = Promise.all(subjects.map(async (subject: any) => {
@@ -23,7 +22,6 @@ class Subject {
       return subject;
     }));
 
-    console.log(await complete);
     return complete;
   }
 }

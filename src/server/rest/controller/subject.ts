@@ -10,7 +10,9 @@ class Subject {
   ) {}
 
   async list(req: Request, res: Response) {
-    const subjects = await this.subject.list();
+    const keyword = req.query.keyword as string;
+
+    const subjects = await this.subject.list(keyword);
     return res.status(200).json(subjects);
   }
 }

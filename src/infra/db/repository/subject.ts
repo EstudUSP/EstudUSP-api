@@ -1,10 +1,9 @@
 import { inject, injectable } from 'inversify';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 
 import { Subject as SubjectSchema } from '../schema/subject';
 import { Question as QuestionSchema } from '../schema/question';
 import Subject from '../../../domain/entity/subject';
-import Question from '../../../domain/entity/question';
 
 @injectable()
 class SubjectRepository {
@@ -40,8 +39,14 @@ class SubjectRepository {
     return subjectEntity;
   }
 
-  async list() {
-    const subjects = await this.repository.find();
+  async list(keyword?: string) {
+    const subjects = await this.repository.find({
+      ...(keyword && { where: {
+        title: Like(`%${keyword}%`)
+      } })
+    });
+
+    console.log('aa', subjects);
 
     const subjectEntities = subjects.map((subject) => new Subject(subject));
 
