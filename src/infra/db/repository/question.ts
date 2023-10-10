@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, Like, Repository } from 'typeorm';
 
 import { Question as QuestionSchema } from '../schema/question';
 import { Tag as TagSchema } from '../schema/tag';
@@ -67,11 +67,21 @@ class QuestionRepository {
 
   // @TODO: add tag filter
   list(subjectId: string, keyword?: string): Promise<QuestionSchema[]> {
+    const defaultQuery = {
+      subject: { id: subjectId },
+    };
+
     return this.repository.find({
-      relations: ['subject', 'professor', 'replies'],
+      relations: ['subject', 'replies'],
       where: [
-        { subject: { id: subjectId } },
-        ...[keyword ? { professor: { name: keyword } } : {}]
+        {
+          ...defaultQuery,
+          ...(keyword ? { title: Like(`%${keyword}%`) } : {}),
+        },
+        {
+          ...defaultQuery,
+          ...(keyword ? { username: Like(`%${keyword}%`) } : {}),
+        },
       ],
       order: { publishedAt: 'DESC' },
     });
@@ -82,7 +92,7 @@ class QuestionRepository {
       where: { subject: { id: subjectId } },
       relations: ['subject', 'professor'],
       order: { publishedAt: 'DESC' },
-      take: 3,
+      take: 4,
     });
 
     return questions;
