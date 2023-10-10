@@ -6,10 +6,10 @@ import QuestionController from '../controller/question';
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads');
+    cb(null, process.env.mode === 'production' ? '/mnt' : './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
 
