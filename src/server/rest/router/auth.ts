@@ -6,7 +6,7 @@ import AuthController from '../controller/auth';
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, process.env.mode === 'production' ? '/mnt' : './uploads');
+    cb(null, process.env.MODE === 'production' ? '/mnt/uploads' : './uploads');
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);

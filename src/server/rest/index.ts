@@ -29,7 +29,7 @@ export default class RestServer {
     app.use(helmet.dnsPrefetchControl({ allow: false }));
     app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
     app.use(express.json());
-    app.use('/files', express.static(process.env.mode === 'production' ? '/mnt' : process.cwd() + '/uploads'));
+    app.use('/files', express.static(process.env.MODE === 'production' ? '/mnt/uploads' : process.cwd() + '/uploads'));
 
     const port = Number(process.env.HTTP_SERVER_PORT);
 
