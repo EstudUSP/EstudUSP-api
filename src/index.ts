@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import 'dotenv/config';
 
 import { BuildContainer } from './container';
-import RestServer from './server/rest';
+import RestServer from './infra/server/rest';
 
 async function setup() {
   const container = await BuildContainer.getInstance();

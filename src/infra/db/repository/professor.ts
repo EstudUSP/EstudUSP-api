@@ -2,7 +2,6 @@ import { inject, injectable } from 'inversify';
 import { DataSource, Repository } from 'typeorm';
 
 import { Professor as ProfessorSchema } from '../schema/professor';
-import Professor from '../../../domain/entity/professor';
 
 @injectable()
 class ProfessorRepository {
@@ -14,34 +13,20 @@ class ProfessorRepository {
     this.repository = this.db.getRepository(ProfessorSchema);
   }
 
-  async get(name: string) {
-    const newProfessor = await this.repository.findOneBy({ name });
-
-    if (!newProfessor) return null;
-
-    const professorEntity = new Professor(newProfessor.id, name);
-
-    return professorEntity;
+  get(name: string) {
+    return this.repository.findOneBy({ name });
   }
 
-  async create(name: string) {
+  create(name: string) {
     const professor = new ProfessorSchema();
     professor.name = name;
 
     // TODO: not create if exists
-    const newProfessor = await this.repository.save(professor);
-
-    const professorEntity = new Professor(newProfessor.id, name);
-
-    return professorEntity;
+    return this.repository.save(professor);
   }
 
-  async list() {
-    const professors = await this.repository.find();
-
-    const professorEntities = professors.map((professor) => new Professor(professor.id, professor.name));
-
-    return professorEntities;
+  list() {
+    return this.repository.find();
   }
 }
 

@@ -1,5 +1,8 @@
+import { Reply as ReplySchema } from '../../infra/db/schema/reply';
+
 export default class Reply {
-  static formatList(replies: any[]) {
+  // @TODO: move to DTO?
+  static formatList(replies: ReplySchema[]) {
     return replies.map((reply) => Reply.format(reply));
   }
 

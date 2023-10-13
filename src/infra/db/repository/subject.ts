@@ -3,7 +3,6 @@ import { DataSource, ILike, Repository } from 'typeorm';
 
 import { Subject as SubjectSchema } from '../schema/subject';
 import { Question as QuestionSchema } from '../schema/question';
-import Subject from '../../../domain/entity/subject';
 
 @injectable()
 class SubjectRepository {
@@ -18,25 +17,16 @@ class SubjectRepository {
     this.questionRepository = this.db.getRepository(QuestionSchema);
   }
 
-  async create(params: { id: string; title: string }): Promise<Subject> {
+  create(params: { id: string; title: string }) {
     const subject = new SubjectSchema();
     subject.id = params.id;
     subject.title = params.title;
 
-    const newSubject = await this.repository.save(subject);
-
-    const subjectEntity = new Subject(newSubject);
-
-    return subjectEntity;
+    return this.repository.save(subject);
   }
 
-  async findById(id: string) {
-    const subject = await this.repository.findOneBy({ id });
-
-    if (!subject) return null;
-
-    const subjectEntity = new Subject(subject);
-    return subjectEntity;
+  findById(id: string) {
+    return this.repository.findOneBy({ id });
   }
 
   async list(keyword?: string) {
@@ -46,11 +36,7 @@ class SubjectRepository {
       } })
     });
 
-    console.log('aa', subjects);
-
-    const subjectEntities = subjects.map((subject) => new Subject(subject));
-
-    return subjectEntities || [];
+    return subjects || [];
   }
 }
 

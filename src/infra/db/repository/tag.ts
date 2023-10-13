@@ -4,9 +4,6 @@ import { DataSource, Repository } from 'typeorm';
 import { Tag as TagSchema } from '../schema/tag';
 import { Subject as SubjectSchema } from '../schema/subject';
 
-import Tag from '../../../domain/entity/tag';
-import Subject from '../../../domain/entity/subject';
-
 @injectable()
 class TagRepository {
   repository: Repository<TagSchema>;
@@ -20,26 +17,20 @@ class TagRepository {
     this.subjectRepository = this.db.getRepository(SubjectSchema);
   }
 
-  async create(titles: string[], subject: Subject) {
+  async create(titles: string[], subject: any) {
     const tagsEntities = await Promise.all(titles.map(async (title) => {
       const tag = new TagSchema();
       tag.title = title;
-      tag.subject = this.subjectRepository.create(subject);
+      tag.subject = this.subjectRepository.create(subject)[0];
 
-      const alreadyExists = await this.repository.findOneBy({
+      const existentTag = await this.repository.findOneBy({
         title,
         subject: { id: subject.id },
       });
 
-      if (alreadyExists) {
-        const tagEntity = new Tag(alreadyExists.id, alreadyExists.title);
-        return tagEntity;
-      }
+      if (existentTag) return existentTag;
 
-      const newTag = await this.repository.save(tag);
-      const tagEntity = new Tag(newTag.id, newTag.title);
-
-      return tagEntity;
+      return await this.repository.save(tag);
     }));
 
     return tagsEntities;

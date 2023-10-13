@@ -7,8 +7,6 @@ import { Professor as ProfessorSchema } from '../schema/professor';
 import { User as UserSchema } from '../schema/user';
 import { Subject as SubjectSchema } from '../schema/subject';
 
-import Question, { IQuestion } from '../../../domain/entity/question';
-
 @injectable()
 class QuestionRepository {
   repository: Repository<QuestionSchema>;
@@ -31,7 +29,7 @@ class QuestionRepository {
     this.subjectRepository = this.db.getRepository(SubjectSchema);
   }
 
-  async create(params: IQuestion): Promise<Question> {
+  async create(params: any) {
     const {
       title,
       anonymous,
@@ -53,12 +51,12 @@ class QuestionRepository {
     question.sameQuestion = 0;
 
     if (professor) {
-      question.professor = this.professorRepository.create(professor);
+      question.professor = this.professorRepository.create(professor)[0];
     }
     // question.user = this.userRepository.create(user);
     question.tags = this.tagRepository.create(tags);
     question.attachments = attachments;
-    question.subject = this.subjectRepository.create(subject);
+    question.subject = this.subjectRepository.create(subject)[0];
 
     const savedQuestion = await this.repository.save(question);
 

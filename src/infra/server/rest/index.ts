@@ -10,7 +10,7 @@ const dir = './uploads';
 
 import IRouter from './router';
 
-import logger, { winstonFormat } from '../../infra/logger';
+import logger, { winstonFormat } from '../../logger';
 const console = logger.child({ label: 'HTTPS Server' });
 
 @injectable()

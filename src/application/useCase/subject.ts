@@ -3,8 +3,6 @@ import { inject, injectable } from 'inversify';
 import SubjectRepository from '../../infra/db/repository/subject';
 import QuestionRepository from '../../infra/db/repository/question';
 
-import SubjectEntity from '../../domain/entity/subject';
-
 @injectable()
 class Subject {
   constructor(
@@ -13,7 +11,7 @@ class Subject {
   ) {}
 
   async list(keyword?: string) {
-    const subjects: SubjectEntity[] = await this.subjectRepository.list(keyword);
+    const subjects = await this.subjectRepository.list(keyword);
 
     if (!subjects) return [];
 

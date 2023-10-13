@@ -3,7 +3,7 @@ import path from 'path';
 import { glob } from 'glob';
 import { DataSource } from 'typeorm';
 
-import RestServer from './server/rest';
+import RestServer from './infra/server/rest';
 
 import AppDataSource from './infra/db';
 import logger from './infra/logger';

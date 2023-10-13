@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 
-import QuestionUseCase, { PostDTO } from '../../../application/useCase/question';
-import ReplyUseCase from '../../../application/useCase/reply';
+import QuestionUseCase, { PostDTO } from '../../../../application/useCase/question';
+import ReplyUseCase from '../../../../application/useCase/reply';
 
 @injectable()
 export default class QuestionController {

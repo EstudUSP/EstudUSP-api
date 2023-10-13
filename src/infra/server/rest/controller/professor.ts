@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 
-import ProfessorUseCase from '../../../application/useCase/professor';
+import ProfessorUseCase from '../../../../application/useCase/professor';
 
 @injectable()
 class ProfessorController {

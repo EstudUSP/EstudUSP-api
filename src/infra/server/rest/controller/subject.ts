@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Request, Response } from 'express';
 
-import SubjectUseCase from '../../../application/useCase/subject';
+import SubjectUseCase from '../../../../application/useCase/subject';
 
 @injectable()
 class Subject {
