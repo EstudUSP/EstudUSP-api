@@ -59,9 +59,9 @@ export class BuildContainer {
     await this.load(container, path.resolve(__dirname, './domain/service'), Scope.SINGLETON);
     await this.load(container, path.resolve(__dirname, './infra/db/repository'), Scope.SINGLETON);
 
-    await this.load(container, path.resolve(__dirname, './server/rest/controller'), Scope.SINGLETON);
-    await this.load(container, path.resolve(__dirname, './server/rest/router'), Scope.SINGLETON);
-    await this.loadList(container, path.resolve(__dirname, './server/rest/router'), 'routers');
+    await this.load(container, path.resolve(__dirname, './infra/server/rest/controller'), Scope.SINGLETON);
+    await this.load(container, path.resolve(__dirname, './infra/server/rest/router'), Scope.SINGLETON);
+    await this.loadList(container, path.resolve(__dirname, './infra/server/rest/router'), 'routers');
 
     container.bind(RestServer).to(RestServer).inSingletonScope();
 
