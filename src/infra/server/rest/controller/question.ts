@@ -43,8 +43,9 @@ export default class QuestionController {
     const keyword = req.query.keyword as string;
 
     try {
-      const subjects = await this.question.list(subjectId, keyword);
-      res.status(200).json(subjects);
+      const questions = await this.question.list(subjectId, keyword);
+      console.log({ questions });
+      res.status(200).json(questions);
     } catch (err) {
       console.error(err);
       res.status(500).json(err.message);
