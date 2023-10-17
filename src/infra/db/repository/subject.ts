@@ -33,7 +33,8 @@ class SubjectRepository {
     const subjects = await this.repository.find({
       ...(keyword && { where: {
         title: ILike(`%${keyword}%`)
-      } })
+      } }),
+      order: { semester: 'ASC', title: 'ASC' },
     });
 
     return subjects || [];
