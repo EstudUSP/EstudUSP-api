@@ -69,7 +69,7 @@ class QuestionRepository {
           ...(keyword ? { username: ILike(`%${keyword}%`) } : {}),
         },
       ],
-      order: { publishedAt: 'DESC' },
+      order: { upvotes: 'DESC', publishedAt: 'DESC' },
     });
   }
 

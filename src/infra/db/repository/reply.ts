@@ -53,7 +53,7 @@ class ReplyRepository {
         question: { id: questionId },
       },
       relations: ['question'],
-      order: { publishedAt: 'DESC' },
+      order: { upvotes: 'DESC', publishedAt: 'DESC' },
     });
   }
 
