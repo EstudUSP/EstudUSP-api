@@ -41,9 +41,10 @@ export default class QuestionController {
   async list(req: Request, res: Response) {
     const subjectId = req.params.subjectId;
     const keyword = req.query.keyword as string;
+    const professor = req.query.professor as string;
 
     try {
-      const questions = await this.question.list(subjectId, keyword);
+      const questions = await this.question.list(subjectId, keyword, professor);
       console.log({ questions });
       res.status(200).json(questions);
     } catch (err) {

@@ -52,13 +52,14 @@ class QuestionRepository {
   }
 
   // @TODO: add tag filter
-  list(subjectId: string, keyword?: string): Promise<QuestionSchema[]> {
+  list(subjectId: string, keyword?: string, professor?: string): Promise<QuestionSchema[]> {
     const defaultQuery = {
       subject: { id: subjectId },
+      ...(professor ? { professor: { name: ILike(`%${professor}%`) } } : {}),
     };
 
     return this.repository.find({
-      relations: ['subject', 'replies'],
+      relations: ['subject', 'replies', 'professor'],
       where: [
         {
           ...defaultQuery,
