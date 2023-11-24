@@ -21,7 +21,6 @@ class ProfessorRepository {
     const professor = new ProfessorSchema();
     professor.name = name;
 
-    // TODO: not create if exists
     return this.repository.save(professor);
   }
 

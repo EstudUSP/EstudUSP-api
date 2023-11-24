@@ -65,8 +65,8 @@ class Question {
     return QuestionEntity.format(question);
   }
 
-  async list(subjectId: string, keyword?: string) {
-    const questions = await this.questionRepository.list(subjectId, keyword);
+  async list(subjectId: string, keyword?: string, professor?: string) {
+    const questions = await this.questionRepository.list(subjectId, keyword, professor);
     console.log({ questions });
     return QuestionEntity.formatList(questions);
   }
