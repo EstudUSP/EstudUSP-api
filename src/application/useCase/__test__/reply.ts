@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 import { faker } from '@faker-js/faker';
+import { DataSource } from 'typeorm';
+import { Container } from 'inversify';
 
 import Question from '../question';
 import Reply from '../reply';
@@ -13,9 +15,10 @@ describe('Reply use cases', () => {
   let question: Question;
   let reply: Reply;
   let subject: Subject;
+  let container: Container;
 
   beforeAll(async () => {
-    const container = await BuildContainer.getInstance();
+    container = await BuildContainer.getInstance();
     question = container.get(Question);
     reply = container.get(Reply);
 
@@ -34,5 +37,10 @@ describe('Reply use cases', () => {
     };
 
     await expect(reply.replyTo(questionId, replyData)).resolves.not.toThrow();
+  });
+
+  afterAll(async () => {
+    const datasource = container.get(DataSource);
+    await datasource.destroy();
   });
 });

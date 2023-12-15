@@ -1,11 +1,15 @@
+import { DataSource } from 'typeorm';
+import { Container } from 'inversify';
+
 import Professor from '../professor';
 import { BuildContainer } from '../../../container';
 
 describe('Professor use cases', () => {
   let professor: Professor;
+  let container: Container;
 
   beforeAll(async () => {
-    const container = await BuildContainer.getInstance();
+    container = await BuildContainer.getInstance();
     professor = container.get(Professor);
   });
 
@@ -14,5 +18,10 @@ describe('Professor use cases', () => {
 
     expect(professors).toBeDefined();
     expect(professors.length).toBeGreaterThan(0);
+  });
+
+  afterAll(async () => {
+    const datasource = container.get(DataSource);
+    await datasource.destroy();
   });
 });

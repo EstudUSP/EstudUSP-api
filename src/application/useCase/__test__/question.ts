@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 import { faker } from '@faker-js/faker';
+import { DataSource } from 'typeorm';
+import { Container } from 'inversify';
 
 import Question from '../question';
 import SubjectSvc from '../subject';
@@ -11,9 +13,10 @@ import { BuildContainer } from '../../../container';
 describe('Question use cases', () => {
   let question: Question;
   let subject: Subject;
+  let container: Container;
 
   beforeAll(async () => {
-    const container = await BuildContainer.getInstance();
+    container = await BuildContainer.getInstance();
     question = container.get(Question);
 
     const subjectSvc = container.get(SubjectSvc);
@@ -58,5 +61,10 @@ describe('Question use cases', () => {
 
     expect(questionData).toBeDefined();
     expect(questionData.id).toBe(questionId);
+  });
+
+  afterAll(async () => {
+    const datasource = container.get(DataSource);
+    await datasource.destroy();
   });
 });
