@@ -8,7 +8,7 @@
     "lint": "npx eslint --fix ./src/*",
     "build": "tsc",
     "postinstall": "",
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "prepare": "husky install"
   },
   "repository": {

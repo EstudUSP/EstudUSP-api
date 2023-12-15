@@ -2,76 +2,59 @@ import 'reflect-metadata';
 import { faker } from '@faker-js/faker';
 
 import Question from '../question';
-import Auth from '../auth';
+import SubjectSvc from '../subject';
 
-import buildContainer from '../../../container';
+import { Subject } from '../../../infra/db/schema/subject';
+
+import { BuildContainer } from '../../../container';
 
 describe('Question use cases', () => {
   let question: Question;
-  let userToken: string;
+  let subject: Subject;
 
   beforeAll(async () => {
-    const container = await buildContainer();
+    const container = await BuildContainer.getInstance();
     question = container.get(Question);
-    const auth = container.get(Auth);
 
-    const userData = {
-      name: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      profilePicture: faker.internet.url(),
-    };
-
-    const user = await auth.signUp(userData);
-    userToken = user.token;
+    const subjectSvc = container.get(SubjectSvc);
+    subject = (await subjectSvc.list())[0];
   });
 
   it('should be able to post a question', async () => {
     const questionData = {
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraph(),
-      upvote: 0,
+      upvotes: 0,
       anonymous: false,
-      userToken,
-      professor: faker.lorem.word(),
+      username: faker.person.firstName(),
+      professor: faker.person.fullName(),
       attachments: [faker.internet.url(), faker.internet.url()],
       tags: [faker.lorem.word(), faker.lorem.word(), faker.lorem.word()],
-      subjectId: 'conduco',
+      subjectId: subject.id,
     };
 
     await expect(question.post(questionData)).resolves.not.toThrow();
   });
 
   it('should be able to list questions', async () => {
-    const questions = await question.list();
-
-    expect(questions).toBeDefined();
-    expect(questions.length).toBeGreaterThan(0);
-  });
-
-  it('should be able to list questions by a keyword', async () => {
-    const questions = await question.list('apostolus');
+    const questions = await question.list(subject.id);
 
     expect(questions).toBeDefined();
     expect(questions.length).toBeGreaterThan(0);
   });
 
   it('should be able to upvote a question', async () => {
-    const questions = await question.list();
-
+    const questions = await question.list(subject.id);
     const questionId = questions[0].id;
 
     await expect(question.upvote(questionId)).resolves.not.toThrow();
   });
 
   it('should be able to get a question by id', async () => {
-    const questions = await question.list();
-
+    const questions = await question.list(subject.id);
     const questionId = questions[0].id;
 
     const questionData = await question.get(questionId);
-
-    console.log(questionData);
 
     expect(questionData).toBeDefined();
     expect(questionData.id).toBe(questionId);

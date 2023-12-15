@@ -43,13 +43,15 @@ export class BuildContainer {
       const datasource = await AppDataSource.initialize();
       container.bind(DataSource).toConstantValue(datasource).whenTargetIsDefault();
 
-      console.info('Data source initialized. Running seeds...');
+      if (process.env.NODE_ENV !== 'test') {
+        console.info('Data source initialized. Running seeds...');
 
-      const subjectSeed = new CreateSubjectsSeed();
-      subjectSeed.run(datasource);
+        const subjectSeed = new CreateSubjectsSeed();
+        subjectSeed.run(datasource);
 
-      // const seed: ISeed[] = container.getAllNamed(ISeed, 'seeds');
-      // seed.run();
+        // const seed: ISeed[] = container.getAllNamed(ISeed, 'seeds');
+        // seed.run();
+      }
     } catch(err) {
       console.error('Error during Data Source initialization', err);
     }
@@ -58,6 +60,8 @@ export class BuildContainer {
     await this.load(container, path.resolve(__dirname, './domain/entity'), Scope.SINGLETON);
     await this.load(container, path.resolve(__dirname, './domain/service'), Scope.SINGLETON);
     await this.load(container, path.resolve(__dirname, './infra/db/repository'), Scope.SINGLETON);
+
+    if (process.env.NODE_ENV === 'test') return container;
 
     await this.load(container, path.resolve(__dirname, './infra/server/rest/controller'), Scope.SINGLETON);
     await this.load(container, path.resolve(__dirname, './infra/server/rest/router'), Scope.SINGLETON);
