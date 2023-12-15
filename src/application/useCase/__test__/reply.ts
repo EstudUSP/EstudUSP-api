@@ -1,46 +1,46 @@
 import 'reflect-metadata';
 import { faker } from '@faker-js/faker';
+import { DataSource } from 'typeorm';
+import { Container } from 'inversify';
 
 import Question from '../question';
 import Reply from '../reply';
-import Auth from '../auth';
+import SubjectSvc from '../subject';
 
-import buildContainer from '../../../container';
+import { Subject } from '../../../infra/db/schema/subject';
+
+import { BuildContainer } from '../../../container';
 
 describe('Reply use cases', () => {
   let question: Question;
   let reply: Reply;
-  let userToken: string;
+  let subject: Subject;
+  let container: Container;
 
   beforeAll(async () => {
-    const container = await buildContainer();
+    container = await BuildContainer.getInstance();
     question = container.get(Question);
     reply = container.get(Reply);
-    const auth = container.get(Auth);
 
-    const userData = {
-      name: faker.internet.userName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      profilePicture: faker.internet.url(),
-    };
-
-    const user = await auth.signUp(userData);
-    userToken = user.token;
+    const subjectSvc = container.get(SubjectSvc);
+    subject = (await subjectSvc.list())[0];
   });
 
   it('should be able to add a reply to a question', async () => {
-    const questions = await question.list();
-
+    const questions = await question.list(subject.id);
     const questionId = questions[0].id;
 
     const replyData = {
-      anonymous: false,
+      username: faker.person.firstName(),
       content: faker.lorem.paragraph(),
       attachments: [faker.internet.url(), faker.internet.url()],
-      userToken,
     };
 
     await expect(reply.replyTo(questionId, replyData)).resolves.not.toThrow();
+  });
+
+  afterAll(async () => {
+    const datasource = container.get(DataSource);
+    await datasource.destroy();
   });
 });

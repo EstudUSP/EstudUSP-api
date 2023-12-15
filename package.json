@@ -7,8 +7,7 @@
     "start": "node dist/index.js",
     "lint": "npx eslint --fix ./src/*",
     "build": "tsc",
-    "postinstall": "",
-    "test": "jest",
+    "test": "NODE_ENV=test jest -i",
     "prepare": "husky install"
   },
   "repository": {

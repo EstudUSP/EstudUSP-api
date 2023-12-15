@@ -40,8 +40,6 @@ class Question {
       throw new Error('Subject not found');
     }
 
-    console.log(post, subject);
-
     // @TODO: implements transactions
     const tags = await this.tagRepository.create(post.tags, subject);
 
@@ -67,7 +65,6 @@ class Question {
 
   async list(subjectId: string, keyword?: string, professor?: string) {
     const questions = await this.questionRepository.list(subjectId, keyword, professor);
-    console.log({ questions });
     return QuestionEntity.formatList(questions);
   }
 
